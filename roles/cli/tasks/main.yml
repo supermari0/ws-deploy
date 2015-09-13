@@ -5,6 +5,7 @@
   apt: pkg={{ item }} state=latest
   with_items:
     - git
+    - screen
     - vim-gtk
 
 - name: Adds github to known_hosts
@@ -43,6 +44,13 @@
   become: yes
   become_method: su
   become_user: "{{ user }}"
+
+- name: Deploys screenrc
+  get_url: url=https://raw.githubusercontent.com/CrashenX/screenrc/master/screenrc
+           dest=/home/{{ user }}/.screenrc
+           owner={{ user }}
+           group={{ user }}
+           mode=0640
 
 - name: Restricts access to unprivileged user files
   file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
