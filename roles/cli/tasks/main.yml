@@ -14,6 +14,24 @@
         group={{ user }}
         mode=0640
 
+- name: Deploys bashrc additions
+  get_url: url=https://raw.githubusercontent.com/CrashenX/bashrc/master/bashrc
+           dest={{ item.basedir }}/.bashrc_{{ item.user }}
+           owner={{ item.user }}
+           group={{ item.user }}
+           mode=0640
+  with_items:
+    - { user: 'root', basedir: '/root' }
+    - { user: "{{ user }}", basedir: "/home/{{ user }}" }
+
+- name: Configures bashrc to use additions
+  lineinfile: dest={{ item.basedir }}/.bashrc
+              line=". {{ item.basedir }}/.bashrc_{{ item.user }}"
+              regexp="^. {{ item.basedir }}/.bashrc_{{ item.user }}"
+  with_items:
+    - { user: 'root', basedir: '/root' }
+    - { user: "{{ user }}", basedir: "/home/{{ user }}" }
+
 - name: Deploys vim config
   git: repo=https://github.com/CrashenX/vimrc.git dest=~/src/vimrc/
   tags: deploy
