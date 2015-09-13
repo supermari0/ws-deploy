@@ -34,7 +34,6 @@
 
 - name: Deploys vim config
   git: repo=https://github.com/CrashenX/vimrc.git dest=~/src/vimrc/
-  tags: deploy
   become: yes
   become_method: su
   become_user: "{{ user }}"
