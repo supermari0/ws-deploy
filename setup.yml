@@ -1,0 +1,52 @@
+- hosts: all
+  remote_user: root
+  vars:
+      user: my_user
+
+  tasks:
+    - name: Creates unprivileged user
+      user: name={{ user }}
+            generate_ssh_key=yes
+            ssh_key_bits=4096
+            ssh_key_file=.ssh/id_rsa
+            shell=/bin/bash
+
+    - name: Pushes public ssh key
+      copy: src=~/.ssh/id_rsa.pub
+            dest={{ item.home }}/.ssh/authorized_keys
+            owner={{ item.user }}
+            group={{ item.user }}
+            mode=0600
+      with_items:
+        - { home: '/root', user: 'root' }
+        - { home: "/home/{{ user }}", user: "{{ user }}" }
+
+    - name: Updates apt cache
+      apt: update_cache=true
+
+    - name: Installs necessary packages
+      apt: pkg={{ item }} state=latest
+      with_items:
+        - git
+        - vim-gtk
+
+    - name: Adds github to known_hosts
+      copy: src=files/github_rsa.pub
+            dest=/home/{{ user }}/.ssh/known_hosts
+            owner={{ user }}
+            group={{ user }}
+            mode=0640
+
+    - name: Deploys vim config
+      git: repo=https://github.com/CrashenX/vimrc.git dest=~/src/vimrc/
+      tags: deploy
+      become: yes
+      become_user: "{{ user }}"
+
+    - name: Installs vim config
+      shell: ~/src/vimrc/install
+      become: yes
+      become_user: "{{ user }}"
+
+    - name: Restricts access to unprivileged user files
+      file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
