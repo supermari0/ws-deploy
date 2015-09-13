@@ -1,0 +1,51 @@
+- name: Update to latest dist
+  apt: update_cache=yes cache_valid_time=3600 upgrade=dist
+
+- name: Install packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - fail2ban
+    - ufw
+    - unattended-upgrades
+    - vim
+
+- name: Uninstall packages
+  apt: pkg={{ item }} state=absent purge=yes
+  with_items:
+    - sudo
+
+- name: Setup ufw
+  command: ufw allow 22/tcp
+
+- name: Enable ufw
+  command: ufw --force enable
+
+- name: Create unprivileged user
+  user: name={{ user }}
+        generate_ssh_key=yes
+        ssh_key_bits=4096
+        ssh_key_file=.ssh/id_rsa
+        shell=/bin/bash
+
+- name: Add authorized key
+  authorized_key: user={{ item }}
+                  key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  with_items:
+    - root
+    - "{{ user }}"
+
+- name: Restricts access to unprivileged user files
+  file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
+
+- name: Lock passwords (use ssh to login)
+  command: passwd -l {{ item }}
+  with_items:
+    - root
+    - "{{ user }}"
+
+- name: Disallow password authentication
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^PasswordAuthentication"
+              line="PasswordAuthentication no"
+              state=present
+  notify: Restart ssh
