@@ -1,0 +1,3 @@
+[submodule "roles/rax"]
+	path = roles/rax
+	url = git@github.rackspace.com:jess7556/rax.git
