@@ -8,7 +8,7 @@ Ansible to configure Debian
     echo "<ip_address> user=<user_account_name>" > hosts
 
     # Set your remote authorized key file for ssh
-    ansible-playbook -c paramiko -i hosts init.yml --ask-pass
+    ssh-copy-id root@<ip_address>
 
     # Setup your remote host(s)
     ansible-playbook -i hosts setup.yml
