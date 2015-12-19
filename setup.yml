@@ -1,4 +1,5 @@
 - hosts: all
   remote_user: root
   roles:
-    - cli
+    - { role: cli }
+    - { role: rax, when: rax == 'yes' }
