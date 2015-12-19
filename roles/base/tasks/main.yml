@@ -5,19 +5,9 @@
   apt: pkg={{ item }} state=latest
   with_items:
     - fail2ban
-    - sudo
     - ufw
     - unattended-upgrades
     - vim
-
-- name: Unlock root account
-  command: passwd -u root
-
-- name: Uninstall packages
-  apt: pkg={{ item }} state=absent purge=yes
-  with_items:
-    - sudo
-  when: sudo == 'no'
 
 - name: Setup ufw
   command: ufw allow 22/tcp
@@ -42,11 +32,8 @@
 - name: Restricts access to unprivileged user files
   file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
 
-- name: Lock passwords (use ssh to login)
-  command: passwd -l {{ item }}
-  with_items:
-    - root
-    - "{{ user }}"
+- name: Lock root password
+  command: passwd -l root
 
 - name: Disallow password authentication
   lineinfile: dest=/etc/ssh/sshd_config
