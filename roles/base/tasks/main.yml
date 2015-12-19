@@ -5,14 +5,19 @@
   apt: pkg={{ item }} state=latest
   with_items:
     - fail2ban
+    - sudo
     - ufw
     - unattended-upgrades
     - vim
+
+- name: Unlock root account
+  command: passwd -u root
 
 - name: Uninstall packages
   apt: pkg={{ item }} state=absent purge=yes
   with_items:
     - sudo
+  when: sudo == 'no'
 
 - name: Setup ufw
   command: ufw allow 22/tcp
