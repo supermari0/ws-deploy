@@ -1,5 +1,4 @@
 - hosts: all
-  remote_user: root
+  sudo: true
   roles:
     - { role: cli }
-    - { role: rax, when: rax == 'yes' }
