@@ -84,5 +84,6 @@ Vagrant.configure(2) do |config|
   # Run ansible
   config.vm.provision "ansible" do |ansible|
       ansible.playbook = "setup.yml"
+      ansible.ask_vault_pass = true
   end
 end
