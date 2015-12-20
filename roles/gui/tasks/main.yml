@@ -12,7 +12,7 @@
   apt: pkg={{ item }} state=latest
   with_items:
     - feh
-    - google-chrome
+    - google-chrome-stable
     - rxvt-unicode-256color
     - slim
     - sxiv
