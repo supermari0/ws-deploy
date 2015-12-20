@@ -57,11 +57,14 @@ Vagrant.configure(2) do |config|
     # Set the VM name:
     vb.name = "Debian Dev"
 
-    # Customize the amount of memory on the VM:
-    vb.memory = "8192"
-
     # Customize the number of CPUs:
     vb.cpus = 1
+
+    # Customize the amount of memory:
+    vb.memory = "8192"
+
+    # Customize the amount of video memory:
+    v.customize ["modifyvm", :id, "--vram", "32"]
   end
   #
   # View the documentation for the provider you are using for more
@@ -79,7 +82,7 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get install --yes python-apt
-    sudo install -D {/home/vagrant,root}/.ssh/authorized_keys
+    sudo install -D {/home/vagrant,/root}/.ssh/authorized_keys
     sudo chown root:root /root/.ssh/authorized_keys
   SHELL
 
