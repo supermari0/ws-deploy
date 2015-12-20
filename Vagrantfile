@@ -64,7 +64,7 @@ Vagrant.configure(2) do |config|
     vb.memory = "8192"
 
     # Customize the amount of video memory:
-    v.customize ["modifyvm", :id, "--vram", "32"]
+    vb.customize ["modifyvm", :id, "--vram", "32"]
   end
   #
   # View the documentation for the provider you are using for more
