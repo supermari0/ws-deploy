@@ -65,6 +65,11 @@ Vagrant.configure(2) do |config|
 
     # Customize the amount of video memory:
     vb.customize ["modifyvm", :id, "--vram", "32"]
+
+    # Enable SSD in guest
+    vb.customize ["storageattach", :id, "--storagectl",\
+                  "SATA Controller", "--port", "0", \
+                  "--device", "0", "--nonrotational", "on"]
   end
   #
   # View the documentation for the provider you are using for more
