@@ -1,0 +1,43 @@
+- name: Adds google chrome repo
+  copy: src=google-chrome.list
+        dest=/etc/apt/sources.list.d/google-chrome.list
+        owner=root
+        group=root
+        mode=0644
+
+- name: Update to apt cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Installs necessary packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - feh
+    - google-chrome
+    - rxvt-unicode-256color
+    - slim
+    - sxiv
+    - xcompmgr
+    - xkbset
+    - xmobar
+    - xmonad
+    - xscreensaver
+
+- name: Installs wallpaper
+  copy: src=wallpaper
+        dest=/home/{{ user }}/.config/wallpaper
+        owner={{ user }}
+        group={{ user }}
+        mode=0640
+
+- name: Deploys xmonad
+  git: repo=https://github.com/CrashenX/xmonad.git dest=~/src/xmonad/
+  become: yes
+  become_user: "{{ user }}"
+
+- name: Installs xmonad configs
+  command: ~/src/xmonad/install
+  become: yes
+  become_user: "{{ user }}"
+
+- name: Restricts access to unprivileged user files
+  file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
