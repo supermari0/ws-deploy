@@ -26,6 +26,7 @@
     - xmobar
     - xmonad
     - xscreensaver
+    - xserver-xorg
 
 - name: Assures config directory exists
   file: path=/home/{{ user }}/.config/ state=directory
