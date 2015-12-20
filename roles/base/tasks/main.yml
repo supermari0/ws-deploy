@@ -10,7 +10,6 @@
 - name: Add authorized key
   authorized_key: user={{ item }}
                   key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
-                  exclusive=true
   with_items:
     - root
     - "{{ user }}"

@@ -1,6 +1,5 @@
-- name: Delete vagrant user
-  command: userdel -r vagrant
-  run_once: true
+- name: Disable vagrant user
+  command: usermod -L -e 1970-01-01 vagrant
 
 - name: Allow only user login via ssh
   lineinfile: dest=/etc/ssh/sshd_config
@@ -8,4 +7,3 @@
               line="AllowUsers jesse"
               state=present
   notify: Restart ssh
-  run_once: true
