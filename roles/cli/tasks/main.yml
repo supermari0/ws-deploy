@@ -22,6 +22,8 @@
            owner={{ item.user }}
            group={{ item.user }}
            mode=0640
+  become: yes
+  become_user: "{{ item.user }}"
   with_items:
     - { user: 'root', basedir: '/root' }
     - { user: "{{ user }}", basedir: "/home/{{ user }}" }
@@ -30,6 +32,8 @@
   lineinfile: dest={{ item.basedir }}/.bashrc
               line=". {{ item.basedir }}/.bashrc_{{ item.user }}"
               regexp="^. {{ item.basedir }}/.bashrc_{{ item.user }}"
+  become: yes
+  become_user: "{{ item.user }}"
   with_items:
     - { user: 'root', basedir: '/root' }
     - { user: "{{ user }}", basedir: "/home/{{ user }}" }
@@ -37,13 +41,11 @@
 - name: Deploys vim config
   git: repo=https://github.com/CrashenX/vimrc.git dest=~/src/vimrc/
   become: yes
-  become_method: su
   become_user: "{{ user }}"
 
 - name: Installs vim config
   command: ~/src/vimrc/install
   become: yes
-  become_method: su
   become_user: "{{ user }}"
 
 - name: Deploys screenrc
