@@ -1,0 +1,11 @@
+- name: Delete vagrant user
+  command: userdel -r vagrant
+  run_once: true
+
+- name: Allow only user login via ssh
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^AllowUsers"
+              line="AllowUsers jesse"
+              state=present
+  notify: Restart ssh
+  run_once: true

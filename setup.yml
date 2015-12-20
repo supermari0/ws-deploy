@@ -5,6 +5,5 @@
 
 - hosts: all
   remote_user: root
-  run_once: true
   roles:
     - { role: lockdown }
