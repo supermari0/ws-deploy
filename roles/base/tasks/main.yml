@@ -36,7 +36,6 @@
   command: ufw --force enable
 
 - name: Restricts access to unprivileged user files
-  remote_user: {{ user }}
   file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
 
 - name: Lock passwords (use ssh to login)

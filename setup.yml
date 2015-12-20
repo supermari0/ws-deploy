@@ -1,5 +1,5 @@
 - hosts: all
-  remote_user: {{ user }}
+  remote_user: "{{ user }}"
   sudo: true
   roles:
     - { role: cli }
