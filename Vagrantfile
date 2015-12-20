@@ -79,6 +79,8 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get install --yes python-apt
+    sudo cp ~/.ssh/authorized_keys /root/authorized_keys
+    sudo chown root:root /root/authorized_keys
   SHELL
 
   # Run ansible
