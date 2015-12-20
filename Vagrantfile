@@ -33,12 +33,12 @@ Vagrant.configure(2) do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "10.20.30.40", nictype: "virtio"
+  config.vm.network "private_network", ip: "10.20.30.40"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
-  config.vm.network "public_network", nictype: "virtio"
+  config.vm.network "public_network"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -48,32 +48,37 @@ Vagrant.configure(2) do |config|
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
   config.vm.provider "virtualbox" do |vb|
-    # Display the VirtualBox GUI when booting the machine:
+    # Display the VirtualBox GUI when booting the machine
     vb.gui = true
 
-    # Set the VM name:
+    # Set the VM name
     vb.name = "Debian Dev"
 
-    # Customize the number of CPUs:
+    # Customize the number of CPUs
     vb.cpus = 1
 
-    # Customize the amount of memory:
+    # Customize the amount of memory
     vb.memory = "8192"
 
-    # Customize the amount of video memory:
-    vb.customize ["modifyvm", :id, "--vram", "32"]
+    # Customize the amount of video memory
+    vb.customize ["modifyvm", :id, "--vram", "128"]
+
+    # Enable 3D acceleration
+    vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
 
     # Enable SSD in guest
     vb.customize ["storageattach", :id, "--storagectl",\
                   "SATA Controller", "--port", "0", \
                   "--device", "0", "--nonrotational", "on"]
+
+    # Enable virtio for network cards
+    vb.customize ["modifyvm", :id, "--nictype1", "virtio" ]
+    vb.customize ["modifyvm", :id, "--nictype2", "virtio" ]
+
+    # Enable bidirectional clipboard
+    vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
   end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
 
   # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
   # such as FTP and Heroku are also available. See the documentation at
@@ -89,6 +94,7 @@ Vagrant.configure(2) do |config|
     sudo apt-get install --yes python-apt
     sudo install -D {/home/vagrant,/root}/.ssh/authorized_keys
     sudo chown root:root /root/.ssh/authorized_keys
+    sudo chmod 600 /root/.ssh/authorized_keys
   SHELL
 
   # Run ansible
