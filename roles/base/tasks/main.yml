@@ -16,8 +16,8 @@
   command: ufw --force enable
 
 - name: Create unprivileged user
-  user: name={{ vault_user }}
-        password={{ vault_password }}
+  user: name={{ user }}
+        password={{ password }}
         generate_ssh_key=yes
         ssh_key_bits=4096
         ssh_key_file=.ssh/id_rsa
