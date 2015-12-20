@@ -6,8 +6,9 @@
         mode=0644
 
 - name: Import google's key
-  command: wget -q -O - https://dl.google.com/linux/linux_signing_key.pub \
-           | sudo apt-key add -
+command: bash -c "wget -q -O -
+                  https://dl.google.com/linux/linux_signing_key.pub
+                  | sudo apt-key add -"
 
 - name: Update to apt cache
   apt: update_cache=yes cache_valid_time=3600
@@ -26,12 +27,19 @@
     - xmonad
     - xscreensaver
 
+- name: Assures config directory exists
+  file: path=/home/{{ user }}/.config/ state=directory
+  become: yes
+  become_user: "{{ user }}"
+
 - name: Installs wallpaper
   copy: src=wallpaper
         dest=/home/{{ user }}/.config/wallpaper
         owner={{ user }}
         group={{ user }}
         mode=0640
+  become: yes
+  become_user: "{{ user }}"
 
 - name: Deploys xmonad
   git: repo=https://github.com/CrashenX/xmonad.git dest=~/src/xmonad/
