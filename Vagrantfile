@@ -75,6 +75,7 @@ Vagrant.configure(2) do |config|
     # Enable virtio for network cards
     vb.customize ["modifyvm", :id, "--nictype1", "virtio" ]
     vb.customize ["modifyvm", :id, "--nictype2", "virtio" ]
+    vb.customize ["modifyvm", :id, "--nictype3", "virtio" ]
 
     # Enable bidirectional clipboard
     vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
@@ -92,9 +93,8 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get install --yes python-apt
-    sudo install -D {/home/vagrant,/root}/.ssh/authorized_keys
-    sudo chown root:root /root/.ssh/authorized_keys
-    sudo chmod 600 /root/.ssh/authorized_keys
+    sudo install -D -o root -g root -m 600 \
+        {/home/vagrant,/root}/.ssh/authorized_keys
   SHELL
 
   # Run ansible
