@@ -1,2 +1,2 @@
-user: vault_user
-password: vault_password
+user: "{{ vault_user }}"
+password: "{{ vault_password }}"
