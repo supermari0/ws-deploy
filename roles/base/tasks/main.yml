@@ -16,7 +16,8 @@
   command: ufw --force enable
 
 - name: Create unprivileged user
-  user: name={{ user }}
+  user: name={{ vault_user }}
+        password={{ vault_password }}
         generate_ssh_key=yes
         ssh_key_bits=4096
         ssh_key_file=.ssh/id_rsa
@@ -32,8 +33,11 @@
 - name: Restricts access to unprivileged user files
   file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
 
-- name: Lock root password
-  command: passwd -l root
+- name: Lock passwords (use ssh to login)
+  command: passwd -l {{ item }}
+  with_items:
+    - root
+    - vagrant
 
 - name: Disallow password authentication
   lineinfile: dest=/etc/ssh/sshd_config
