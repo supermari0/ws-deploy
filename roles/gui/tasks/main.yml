@@ -58,7 +58,7 @@
 - name: Configures user bashrc to use xmonad additions
   lineinfile: dest=~/.bashrc_{{ user }}
               line=". ~/.bashrc_{{ user }}_xmonad"
-              regexp="^. ~/.bashrc_{{ item.user }}_xmoand"
+              regexp="^. ~/.bashrc_{{ user }}_xmoand"
   become: yes
   become_user: "{{ user }}"
 
