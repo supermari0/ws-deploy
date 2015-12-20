@@ -6,8 +6,6 @@
         ssh_key_bits=4096
         ssh_key_file=.ssh/id_rsa
         shell=/bin/bash
-  remote_user: root
-  run_once: true
 
 - name: Add authorized key
   authorized_key: user={{ item }}
@@ -15,8 +13,16 @@
   with_items:
     - root
     - "{{ user }}"
-  remote_user: root
-  run_once: true
+
+- name: Lock root password
+  command: passwd -l root
+
+- name: Disallow ssh password authentication
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^PasswordAuthentication"
+              line="PasswordAuthentication no"
+              state=present
+  notify: Restart ssh
 
 - name: Update to latest dist
   apt: update_cache=yes cache_valid_time=3600 upgrade=dist
@@ -37,16 +43,3 @@
 
 - name: Restricts access to unprivileged user files
   file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
-
-- name: Lock passwords (use ssh to login)
-  command: passwd -l {{ item }}
-  with_items:
-    - root
-    - vagrant
-
-- name: Disallow password authentication
-  lineinfile: dest=/etc/ssh/sshd_config
-              regexp="^PasswordAuthentication"
-              line="PasswordAuthentication no"
-              state=present
-  notify: Restart ssh

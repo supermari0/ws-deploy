@@ -1,5 +1,10 @@
 - hosts: all
-  remote_user: "{{ user }}"
   sudo: true
   roles:
     - { role: cli }
+
+- hosts: all
+  remote_user: root
+  run_once: true
+  roles:
+    - { role: lockdown }
