@@ -34,6 +34,22 @@
   become: yes
   become_user: "{{ user }}"
 
+- name: Deploys bashrc additions for xmonad
+  get_url: url=https://raw.githubusercontent.com/CrashenX/xmonad/master/bashrc
+           dest=~/.bashrc_{{ user }}_xmonad
+           owner={{ user }}
+           group={{ user }}
+           mode=0640
+  become: yes
+  become_user: "{{ user }}"
+
+- name: Configures user bashrc to use xmonad additions
+  lineinfile: dest=~/.bashrc_{{ user }}
+              line=". ~/.bashrc_{{ user }}_xmonad"
+              regexp="^. ~/.bashrc_{{ item.user }}_xmoand"
+  become: yes
+  become_user: "{{ user }}"
+
 - name: Installs xmonad configs
   command: ~/src/xmonad/install
   become: yes
