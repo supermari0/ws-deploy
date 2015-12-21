@@ -1,4 +1,4 @@
-- name: Create unprivileged user
+- name: Creates unprivileged user
   user: name={{ user }}
         password={{ password }}
         groups="sudo"
@@ -7,34 +7,34 @@
         ssh_key_file=.ssh/id_rsa
         shell=/bin/bash
 
-- name: Add authorized key
+- name: Adds authorized key
   authorized_key: user={{ item }}
                   key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
   with_items:
     - root
     - "{{ user }}"
 
-- name: Lock root password
+- name: Locks root password
   command: passwd -l root
 
-- name: Disallow ssh password authentication
+- name: Disallows ssh password authentication
   lineinfile: dest=/etc/ssh/sshd_config
               regexp="^PasswordAuthentication"
               line="PasswordAuthentication no"
               state=present
   notify: Restart ssh
 
-- name: Update apt sources list
+- name: Updates apt sources list
   copy: src=sources.list
         dest=/etc/apt/sources.list
         owner=root
         group=root
         mode=0644
 
-- name: Update to latest dist
+- name: Updates to latest dist
   apt: update_cache=yes cache_valid_time=3600 upgrade=dist
 
-- name: Install packages
+- name: Installs packages
   apt: pkg={{ item }} state=latest
   with_items:
     - fail2ban
@@ -43,10 +43,10 @@
     - vim
     - virtualbox-guest-*
 
-- name: Setup ufw
+- name: Sets up ufw
   command: ufw allow 22/tcp
 
-- name: Enable ufw
+- name: Enables ufw
   command: ufw --force enable
 
 - name: Restricts access to unprivileged user files

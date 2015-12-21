@@ -5,16 +5,13 @@
         group=root
         mode=0644
 
-- name: Import google's key
+- name: Imports google's key
   command: bash -c "wget -q -O -
                     https://dl.google.com/linux/linux_signing_key.pub
                     | sudo apt-key add -"
 
-- name: Update to apt cache
-  apt: update_cache=yes cache_valid_time=3600
-
 - name: Installs necessary packages
-  apt: pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=latest update_cache=yes
   with_items:
     - feh
     - google-chrome-stable

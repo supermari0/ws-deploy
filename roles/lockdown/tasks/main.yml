@@ -1,7 +1,7 @@
-- name: Disable vagrant user
+- name: Disables vagrant user
   command: usermod -L -e 1970-01-01 vagrant
 
-- name: Allow only user login via ssh
+- name: Allows only user login via ssh
   lineinfile: dest=/etc/ssh/sshd_config
               regexp="^AllowUsers"
               line="AllowUsers jesse"
