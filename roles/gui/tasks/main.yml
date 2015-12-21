@@ -13,6 +13,7 @@
 - name: Installs necessary packages
   apt: pkg={{ item }} state=latest update_cache=yes
   with_items:
+    - dmenu
     - feh
     - google-chrome-stable
     - rxvt-unicode-256color
