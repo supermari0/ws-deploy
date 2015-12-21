@@ -15,10 +15,14 @@
   with_items:
     - dmenu
     - feh
+    - fonts-dejavu
+    - fonts-droid
     - google-chrome-stable
     - rxvt-unicode-256color
     - slim
     - sxiv
+    - ttf-bitstream-vera
+    - xautolock
     - xcompmgr
     - xkbset
     - xmobar
