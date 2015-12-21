@@ -32,7 +32,7 @@
         mode=0644
 
 - name: Updates to latest dist
-  apt: update_cache=yes cache_valid_time=3600 upgrade=dist
+  apt: update_cache=yes upgrade=dist
 
 - name: Installs packages
   apt: pkg={{ item }} state=latest
