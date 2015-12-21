@@ -24,6 +24,9 @@
               state=present
   notify: Restart ssh
 
+- name: Updates current dist
+  apt: update_cache=yes upgrade=dist
+
 - name: Updates apt sources list
   copy: src=sources.list
         dest=/etc/apt/sources.list
@@ -31,7 +34,7 @@
         group=root
         mode=0644
 
-- name: Updates to latest dist
+- name: Updates to Sid
   apt: update_cache=yes upgrade=dist
 
 - name: Installs packages
