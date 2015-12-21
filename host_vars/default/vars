@@ -1,2 +1,6 @@
 user: "{{ vault_user }}"
 password: "{{ vault_password }}"
+gpg_private_key: "{{ vault_gpg_private_key }}"
+gpg_public_key: "{{ vault_gpg_public_key }}"
+ssh_private_key: "{{ vault_ssh_private_key }}"
+ssh_public_key: "{{ vault_ssh_public_key }}"

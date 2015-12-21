@@ -25,11 +25,38 @@ Vagrant + Ansible to configure Debian
          f.close();\
         "
 
+### Add your gpg keys
+
+EITHER: Remove the gpg-keys role from setup.yml
+OR: Add your ASCII armored keys to `host_vars/default/vault-test`:
+
+    vault_gpg_private_key: |
+      -----BEGIN PGP PRIVATE KEY BLOCK-----
+      <your_private_key>
+      -----END PGP PRIVATE KEY BLOCK-----
+
+    vault_gpg_public_key: |
+      -----BEGIN PGP PUBLIC KEY BLOCK-----
+      <your_private_key>
+      -----END PGP PUBLIC KEY BLOCK-----
+
+### Add your ssh keys
+
+EITHER: Remove the ssh-keys role from setup.yml
+OR: Add your keys to `host_vars/default/vault-test`:
+
+    vault_ssh_private_key: |
+      -----BEGIN RSA PRIVATE KEY-----
+      <your_private_key>
+      -----END RSA PRIVATE KEY-----
+
+    vault_ssh_public_key: <your_public_key>
+
 ### Encrypt your secrets
 
     ansible-vault encrypt host_vars/default/vault
 
-### RAX Only
+### (Optional): Racker specific configs
 
 Follow steps in rax/roles/README.md
 
