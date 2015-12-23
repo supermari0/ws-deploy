@@ -47,7 +47,7 @@
     - virtualbox-guest-*
 
 - name: Sets up ufw
-  command: ufw allow 22/tcp
+  command: ufw allow in on eth0,eth1 from 10.0.0.0/8 to any port 22/tcp
 
 - name: Enables ufw
   command: ufw --force enable
