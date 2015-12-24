@@ -41,16 +41,22 @@
   apt: pkg={{ item }} state=latest
   with_items:
     - fail2ban
-    - ufw
+    - iptables-persistent
     - unattended-upgrades
     - vim
     - virtualbox-guest-*
 
-- name: Sets up ufw
-  command: ufw allow in on eth0,eth1 from 10.0.0.0/8 to any port 22/tcp
+- name: Installs fw rules
+  copy: src={{ item }}
+        dest=/etc/iptables/{{ item }}
+        owner=root
+        group=root
+        mode=0644
+  with_items:
+    - rules.v4
+    - rules.v6
 
-- name: Enables ufw
-  command: ufw --force enable
+- service: name=iptables-persistent state=restarted
 
 - name: Restricts access to unprivileged user files
   file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"

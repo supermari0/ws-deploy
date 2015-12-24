@@ -1,0 +1,20 @@
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT DROP [0:0]
+-N LOGGING
+-A INPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
+-A INPUT -m conntrack --ctstate NEW -i lo -j ACCEPT
+-A INPUT -m conntrack --ctstate NEW -p tcp -m tcp --dport 22 -s fc00::/7 -j ACCEPT
+-A OUTPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
+-A OUTPUT -m conntrack --ctstate NEW -o lo -j ACCEPT
+-A OUTPUT -m conntrack --ctstate NEW -p tcp -m tcp --dport 43 -j ACCEPT
+-A OUTPUT -m conntrack --ctstate NEW -p udp -m udp --dport 53 -j ACCEPT
+-A OUTPUT -m conntrack --ctstate NEW -p tcp -m tcp --dport 80 -j ACCEPT
+-A OUTPUT -m conntrack --ctstate NEW -p udp -m udp --dport 123 -j ACCEPT
+-A OUTPUT -m conntrack --ctstate NEW -p tcp -m tcp --dport 443 -j ACCEPT
+-A OUTPUT -m conntrack --ctstate NEW -p tcp -m tcp --dport 6697 -j ACCEPT
+-A OUTPUT -j LOGGING
+-A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables-Dropped: " --log-level 4
+-A LOGGING -j DROP
+COMMIT
