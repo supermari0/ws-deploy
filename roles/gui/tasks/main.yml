@@ -31,7 +31,7 @@
     - xscreensaver
     - xserver-xorg
 
-- name: Assures config directory exists
+- name: Ensures config directory exists
   file: path=/home/{{ user }}/.config/ state=directory
   become: yes
   become_user: "{{ user }}"
@@ -52,7 +52,7 @@
 
 - name: Deploys bashrc additions for xmonad
   get_url: url=https://raw.githubusercontent.com/CrashenX/xmonad/master/bashrc
-           dest=~/.bashrc_{{ user }}_xmonad
+           dest=/home/{{ user }}/.bashrc_{{ user }}_xmonad
            owner={{ user }}
            group={{ user }}
            mode=0640
@@ -60,14 +60,14 @@
   become_user: "{{ user }}"
 
 - name: Configures user bashrc to use xmonad additions
-  lineinfile: dest=~/.bashrc_{{ user }}
-              line=". ~/.bashrc_{{ user }}_xmonad"
-              regexp="^. ~/.bashrc_{{ user }}_xmoand"
+  lineinfile: dest=/home/{{ user }}/.bashrc_{{ user }}
+              line=". /home/{{ user }}/.bashrc_{{ user }}_xmonad"
+              regexp="^. /home/{{ user }}/.bashrc_{{ user }}_xmoand"
   become: yes
   become_user: "{{ user }}"
 
 - name: Installs xmonad configs
-  command: ~/src/xmonad/install
+  command: /home/{{ user }}/src/xmonad/install
   become: yes
   become_user: "{{ user }}"
 

@@ -36,12 +36,13 @@
     - { user: "{{ user }}", basedir: "/home/{{ user }}" }
 
 - name: Deploys vim config
-  git: repo=https://github.com/CrashenX/vimrc.git dest=~/src/vimrc/
+  git: repo=https://github.com/CrashenX/vimrc.git
+       dest=/home/{{ user }}/src/vimrc/
   become: yes
   become_user: "{{ user }}"
 
 - name: Installs vim config
-  command: ~/src/vimrc/install
+  command: /home/{{ user }}/src/vimrc/install
   become: yes
   become_user: "{{ user }}"
 
