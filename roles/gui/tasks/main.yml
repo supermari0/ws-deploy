@@ -32,9 +32,11 @@
     - xserver-xorg
 
 - name: Ensures config directory exists
-  file: path=/home/{{ user }}/.config/ state=directory
-  become: yes
-  become_user: "{{ user }}"
+  file: path=/home/{{ user }}/.config/
+        state=directory
+        owner={{ user }}
+        group={{ user }}
+        mode=750
 
 - name: Installs wallpaper
   copy: src=wallpaper

@@ -46,6 +46,13 @@
     - vim
     - virtualbox-guest-*
 
+- name: Ensures iptables directory exists
+  file: path=/etc/iptables/
+        state=directory
+        owner=root
+        group=root
+        mode=755
+
 - name: Installs fw rules
   copy: src={{ item }}
         dest=/etc/iptables/{{ item }}
