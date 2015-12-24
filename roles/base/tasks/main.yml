@@ -41,7 +41,7 @@
   apt: pkg={{ item }} state=latest
   with_items:
     - fail2ban
-    - iptables-persistent
+    - netfilter-persistent
     - unattended-upgrades
     - vim
     - virtualbox-guest-*
@@ -56,7 +56,7 @@
     - rules.v4
     - rules.v6
 
-- service: name=iptables-persistent state=restarted
+- service: name=netfilter-persistent state=restarted
 
 - name: Restricts access to unprivileged user files
   file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
