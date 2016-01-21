@@ -9,9 +9,27 @@ Vagrant + Ansible to configure Debian
 #### Set your login
 
     python -c \
-        "usr = raw_input('clear_text_username: ');\
+        "usr = raw_input('username: ');\
          f = open('host_vars/default/vault', 'w');\
          f.write('vault_user: %s\n' % usr);\
+         f.close();\
+        "
+
+#### Set your real name
+
+    python -c \
+        "usr = raw_input('fullname: ');\
+         f = open('host_vars/default/vault', 'w');\
+         f.write('vault_real_name: %s\n' % usr);\
+         f.close();\
+        "
+
+#### Set your email
+
+    python -c \
+        "usr = raw_input('email: ');\
+         f = open('host_vars/default/vault', 'w');\
+         f.write('vault_email: %s\n' % usr);\
          f.close();\
         "
 
