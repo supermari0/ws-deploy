@@ -41,6 +41,7 @@
   apt: pkg={{ item }} state=latest
   with_items:
     - fail2ban
+    - gnupg
     - netfilter-persistent
     - unattended-upgrades
     - vim
@@ -65,13 +66,43 @@
 
 - service: name=netfilter-persistent state=restarted
 
-- name: Copy ssh public key
-  copy: content={{ ssh_public_key }}
+- name: Copies ssh public key
+  copy: content="{{ ssh_public_key }}"
         dest=/home/{{ user }}/.ssh/id_rsa.pub
         owner={{ user }}
         group={{ user }}
         mode=0400
   no_log: true
+
+- name: Copies ssh private key
+  copy: content="{{ ssh_private_key }}"
+        dest=/home/{{ user }}/.ssh/id_rsa
+        owner={{ user }}
+        group={{ user }}
+        mode=0400
+  no_log: true
+
+- name: Copies gpg public key
+  copy: content="{{ gpg_public_key }}"
+        dest=/home/{{ user }}/my-public-key.asc
+        owner={{ user }}
+        group={{ user }}
+        mode=0400
+  no_log: true
+
+- name: Copies gpg private key
+  copy: content="{{ gpg_private_key }}"
+        dest=/home/{{ user }}/my-private-key.asc
+        owner={{ user }}
+        group={{ user }}
+        mode=0400
+  no_log: true
+
+- name: Import gpg keys
+  command: gpg --import {{ item }}
+  with_items:
+    - my-public-key.asc
+    - my-private-key.asc
 
 - name: Restricts access to unprivileged user files
   file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
