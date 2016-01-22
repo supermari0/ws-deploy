@@ -98,7 +98,10 @@
         mode=0400
   no_log: true
 
-- name: Import gpg keys
+- name: Initializes gpg
+  command: gpg --list-keys
+
+- name: Imports gpg keys
   command: gpg --import /home/{{ user }}/{{ item }}
   with_items:
     - my-public-key.asc

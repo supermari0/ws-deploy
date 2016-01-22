@@ -36,7 +36,7 @@
     - { user: "{{ user }}", basedir: "/home/{{ user }}" }
 
 - name: Deploys vim config
-  git: repo=https://github.com/CrashenX/vimrc.git
+  git: repo=ssh://git@github.com:CrashenX/vimrc.git
        dest=/home/{{ user }}/src/vimrc/
   become: yes
   become_user: "{{ user }}"
