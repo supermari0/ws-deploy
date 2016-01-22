@@ -65,5 +65,13 @@
 
 - service: name=netfilter-persistent state=restarted
 
+- name: Copy ssh public key
+  copy: content={{ ssh_public_key }}
+        dest=/home/{{ user }}/.ssh/id_rsa.pub
+        owner={{ user }}
+        group={{ user }}
+        mode=0400
+  no_log: true
+
 - name: Restricts access to unprivileged user files
   file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
