@@ -118,6 +118,7 @@
     - my-private-key.asc
   become: yes
   become_user: "{{ user }}"
+  ignore_errors: yes
 
 - name: Restricts access to unprivileged user files
   file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
