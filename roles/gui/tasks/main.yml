@@ -48,7 +48,7 @@
   become_user: "{{ user }}"
 
 - name: Deploys xmonad
-  git: repo=ssh://git@github.com:CrashenX/xmonad.git dest=~/src/xmonad/
+  git: repo=https://github.com/CrashenX/xmonad.git dest=~/src/xmonad/
   become: yes
   become_user: "{{ user }}"
 
