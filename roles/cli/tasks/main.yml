@@ -35,11 +35,14 @@
     - { user: 'root', basedir: '/root' }
     - { user: "{{ user }}", basedir: "/home/{{ user }}" }
 
-- name: Deploys vim config
-  git: repo=ssh://git@github.com:CrashenX/vimrc.git
+- name: Clones vimrc repository
+  git: repo=ssh://git@github.com/CrashenX/vimrc.git
        dest=/home/{{ user }}/src/vimrc/
-  become: yes
-  become_user: "{{ user }}"
+
+- name: Changes ownership of vimrc respository
+  file: path=/home/{{ user }}/src/vimrc state=directory recurse=yes
+        owner={{ user }}
+        group={{ user }}
 
 - name: Installs vim config
   command: /home/{{ user }}/src/vimrc/install

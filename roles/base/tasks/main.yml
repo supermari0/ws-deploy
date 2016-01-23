@@ -72,6 +72,8 @@
         owner={{ user }}
         group={{ user }}
         mode=0400
+  become: yes
+  become_user: "{{ user }}"
   no_log: true
 
 - name: Copies ssh private key
@@ -80,6 +82,8 @@
         owner={{ user }}
         group={{ user }}
         mode=0400
+  become: yes
+  become_user: "{{ user }}"
   no_log: true
 
 - name: Copies gpg public key
@@ -88,6 +92,8 @@
         owner={{ user }}
         group={{ user }}
         mode=0400
+  become: yes
+  become_user: "{{ user }}"
   no_log: true
 
 - name: Copies gpg private key
@@ -96,16 +102,22 @@
         owner={{ user }}
         group={{ user }}
         mode=0400
+  become: yes
+  become_user: "{{ user }}"
   no_log: true
 
 - name: Initializes gpg
   command: gpg --list-keys
+  become: yes
+  become_user: "{{ user }}"
 
 - name: Imports gpg keys
   command: gpg --import /home/{{ user }}/{{ item }}
   with_items:
     - my-public-key.asc
     - my-private-key.asc
+  become: yes
+  become_user: "{{ user }}"
 
 - name: Restricts access to unprivileged user files
   file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"
