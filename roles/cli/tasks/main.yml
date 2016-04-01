@@ -42,13 +42,13 @@
     - { user: "{{ user }}", basedir: "/home/{{ user }}" }
 
 - name: Clones ws-deploy repository
-  git: repo=git@github.com:CrashenX/ws-deploy.git
+  git: repo=https://github.com/CrashenX/ws-deploy.git
        dest=/home/{{ user }}/src/ws-deploy/
   become: yes
   become_user: "{{ user }}"
 
 - name: Clones vimrc repository
-  git: repo=git@github.com:CrashenX/vimrc.git
+  git: repo=https://github.com/CrashenX/vimrc.git
        dest=/home/{{ user }}/src/vimrc/
   become: yes
   become_user: "{{ user }}"
