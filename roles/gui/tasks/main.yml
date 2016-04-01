@@ -16,6 +16,7 @@
     - dmenu
     - feh
     - fonts-dejavu
+    - gitk
     - google-chrome-stable
     - rxvt-unicode-256color
     - slim

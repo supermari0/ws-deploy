@@ -1,7 +1,13 @@
 - name: Installs necessary packages
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
   with_items:
+    - flake8
     - git
+    - python-dev
+    - python-jedi
+    - python3-jedi
+    - python-virtualenv
+    - python-pip
     - realpath
     - screen
     - vim-gtk
@@ -34,6 +40,12 @@
   with_items:
     - { user: 'root', basedir: '/root' }
     - { user: "{{ user }}", basedir: "/home/{{ user }}" }
+
+- name: Clones ws-deploy repository
+  git: repo=https://github.com/CrashenX/ws-deploy.git
+       dest=/home/{{ user }}/src/ws-deploy/
+  become: yes
+  become_user: "{{ user }}"
 
 - name: Clones vimrc repository
   git: repo=https://github.com/CrashenX/vimrc.git
