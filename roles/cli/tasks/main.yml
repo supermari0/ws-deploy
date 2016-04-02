@@ -44,6 +44,7 @@
 - name: Clones ws-deploy repository
   git: repo=https://github.com/CrashenX/ws-deploy.git
        dest=/home/{{ user }}/src/ws-deploy/
+       recursive=no
   become: yes
   become_user: "{{ user }}"
 
