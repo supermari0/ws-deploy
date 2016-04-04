@@ -19,6 +19,16 @@
         group={{ user }}
         mode=0640
 
+- name: Sets git global user.name
+  command: git config --global user.name "{{ real_name }}"
+  become: yes
+  become_user: "{{ user }}"
+
+- name: Sets git global user.email
+  command: git config --global user.email "{{ email }}"
+  become: yes
+  become_user: "{{ user }}"
+
 - name: Deploys bashrc additions
   get_url: url=https://raw.githubusercontent.com/CrashenX/bashrc/master/bashrc
            dest={{ item.basedir }}/.bashrc_{{ item.user }}
