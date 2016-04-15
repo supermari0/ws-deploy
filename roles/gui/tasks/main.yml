@@ -10,6 +10,7 @@
                     https://dl.google.com/linux/linux_signing_key.pub
                     | sudo apt-key add -"
 
+# TODO(supermari0): Slim this down.
 - name: Installs necessary packages
   apt: pkg={{ item }} state=latest update_cache=yes
   with_items:
@@ -26,8 +27,6 @@
     - xclip
     - xcompmgr
     - xkbset
-    - xmobar
-    - xmonad
     - xscreensaver
     - xserver-xorg
 
@@ -46,32 +45,3 @@
         mode=0640
   become: yes
   become_user: "{{ user }}"
-
-- name: Deploys xmonad
-  git: repo=https://github.com/CrashenX/xmonad.git dest=~/src/xmonad/
-  become: yes
-  become_user: "{{ user }}"
-
-- name: Deploys bashrc additions for xmonad
-  get_url: url=https://raw.githubusercontent.com/CrashenX/xmonad/master/bashrc
-           dest=/home/{{ user }}/.bashrc_{{ user }}_xmonad
-           owner={{ user }}
-           group={{ user }}
-           mode=0640
-  become: yes
-  become_user: "{{ user }}"
-
-- name: Configures user bashrc to use xmonad additions
-  lineinfile: dest=/home/{{ user }}/.bashrc_{{ user }}
-              line=". /home/{{ user }}/.bashrc_{{ user }}_xmonad"
-              regexp="^. /home/{{ user }}/.bashrc_{{ user }}_xmoand"
-  become: yes
-  become_user: "{{ user }}"
-
-- name: Installs xmonad configs
-  command: /home/{{ user }}/src/xmonad/install
-  become: yes
-  become_user: "{{ user }}"
-
-- name: Restricts access to unprivileged user files
-  file: path=/home/{{ user }} state=directory recurse=yes mode="o-rwx"

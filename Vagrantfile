@@ -12,16 +12,8 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "debian/jessie64"
-  config.vm.box_download_checksum = \
-      "ee9cd1a4bc5fc2f2944a07e8571c6a46b74e0b47da2449912d537a8257ceba9e"
-  config.vm.box_download_checksum_type = "sha256"
-
-
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
+  config.vm.box = "debian/contrib-jessie64"
+  # TODO: checksum this
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -31,11 +23,6 @@ Vagrant.configure(2) do |config|
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   config.vm.network "private_network", ip: "10.20.30.40"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  config.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -50,7 +37,7 @@ Vagrant.configure(2) do |config|
     vb.gui = true
 
     # Set the VM name
-    vb.name = "Debian Dev"
+    vb.name = "mario_debian_dev"
 
     # Customize the number of CPUs
     vb.cpus = 1
@@ -60,9 +47,6 @@ Vagrant.configure(2) do |config|
 
     # Customize the amount of video memory
     vb.customize ["modifyvm", :id, "--vram", "128"]
-
-    # Enable 3D acceleration
-    vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
 
     # Enable SSD in guest
     vb.customize ["storageattach", :id, "--storagectl",\

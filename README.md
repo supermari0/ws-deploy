@@ -74,14 +74,6 @@ OR: Add your keys to `host_vars/default/vault-test`:
 
     ansible-vault encrypt host_vars/default/vault
 
-### (Optional): Racker specific configs
-
-Follow steps in rax/roles/README.md
-
-    git submodule init
-    git submodule update
-    less roles/rax/README.md
-
 ### Build your VM
 
     cd vagrant
