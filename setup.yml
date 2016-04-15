@@ -3,9 +3,3 @@
   become_user: root
   roles:
     - { role: gui }
-
-- hosts: all
-  vars:
-  - ansible_ssh_user: root
-  roles:
-    - { role: lockdown }

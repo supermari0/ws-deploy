@@ -1,5 +1,9 @@
 # ws-deploy
 
+to do:
+- automatically install and configure i3 with Mod1 key
+- automatically install and setup gnome-terminal as default
+
 Vagrant + Ansible to configure Debian
 
 ## Usage
@@ -10,7 +14,7 @@ Vagrant + Ansible to configure Debian
 
     python -c \
         "usr = raw_input('username: ');\
-         f = open('host_vars/default/vault', 'w');\
+         f = open('host_vars/default/vault', 'a');\
          f.write('vault_user: %s\n' % usr);\
          f.close();\
         "
@@ -19,7 +23,7 @@ Vagrant + Ansible to configure Debian
 
     python -c \
         "usr = raw_input('fullname: ');\
-         f = open('host_vars/default/vault', 'w');\
+         f = open('host_vars/default/vault', 'a');\
          f.write('vault_real_name: %s\n' % usr);\
          f.close();\
         "
@@ -28,7 +32,7 @@ Vagrant + Ansible to configure Debian
 
     python -c \
         "usr = raw_input('email: ');\
-         f = open('host_vars/default/vault', 'w');\
+         f = open('host_vars/default/vault', 'a');\
          f.write('vault_email: %s\n' % usr);\
          f.close();\
         "
